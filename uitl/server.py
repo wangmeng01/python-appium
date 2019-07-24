@@ -1,12 +1,15 @@
 from uitl.cmd import DosCmd
 from uitl.port import Port
 from uitl.write_user_yaml import WriteUserCommand
+from uitl.start_appium import Driver
 import threading
+import time
 class Server():
     def __init__(self):
         self.dos = DosCmd()
         self.devices_list=self.get_devices()
         self.write_user_command = WriteUserCommand()
+        self.driver=Driver()
     def get_devices(self):
         '''获取设备信息'''
 
@@ -55,6 +58,7 @@ class Server():
             appium_start.start()
         else:
             return "手机没有连接成功哦T_T,服务启动失败!!!!!"
+
 if __name__ == '__main__':
     a=Server()
     b=a.main()
