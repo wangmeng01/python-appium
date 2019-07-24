@@ -1,4 +1,3 @@
-
 class Swipe_On():
     def __init__(self,driver,direction):
         self.direction=direction

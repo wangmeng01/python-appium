@@ -1,6 +1,7 @@
 from uitl.cmd import DosCmd
 class Port():
     def port_is_use(self,port_num):
+        '''查看端口是否被占用'''
         self.dos=DosCmd()
         flag=None
         command='netstat -ano|findstr'+' '+str(port_num)
