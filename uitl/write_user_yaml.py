@@ -24,3 +24,8 @@ class WriteUserCommand:
             }
         }
         return data
+    def clear_data(self):
+        '''写入数据'''
+        with open(r'G:\appium_python\config\userconfig.yaml', 'w') as f:
+            f.truncate()
+        f.close()

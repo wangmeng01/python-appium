@@ -1,11 +1,12 @@
 from uitl.cmd import DosCmd
 from uitl.port import Port
-from uitl.write_user_command import WriteUserCommand
+from uitl.write_user_yaml import WriteUserCommand
 import threading
 class Server():
     def __init__(self):
         self.dos = DosCmd()
         self.devices_list=self.get_devices()
+        self.write_user_command = WriteUserCommand()
     def get_devices(self):
         '''获取设备信息'''
 
@@ -27,7 +28,6 @@ class Server():
         return port_list
     def create_command_list(self,i):
         #appium -p 4700 -bp 4701 -U 127.0.0.1
-        write_user_command = WriteUserCommand()
         command_list=[]
         appium_port_list=self.create_port_list(4700)
         bootstrap_port_list=self.create_port_list(4800)
@@ -35,13 +35,14 @@ class Server():
         if len(devices_list) > 0 and appium_port_list != '手机没有连接成功哦T_T' and bootstrap_port_list != '手机没有连接成功哦T_T':
             command = 'appium -p ' + str(appium_port_list[i]) + ' -bp ' + str(bootstrap_port_list[i]) + ' -U ' + devices_list[i] + " --no-reset --session-override"
             command_list.append(command)
-            data = write_user_command.join_data(i, str(bootstrap_port_list[i]), devices_list[i],str(appium_port_list[i]))
-            write_user_command.write_data(data)
+            data = self.write_user_command.join_data(i, str(bootstrap_port_list[i]), devices_list[i],str(appium_port_list[i]))
+            self.write_user_command.write_data(data)
             return command_list
         else:
             return "手机没有连接成功哦T_T"
     def start_server(self,i):
         self.kill_server()
+        self.write_user_command.clear_data()
         start_list=self.create_command_list(i)
         self.dos.excute_cmd(start_list[0])
     def kill_server(self):
